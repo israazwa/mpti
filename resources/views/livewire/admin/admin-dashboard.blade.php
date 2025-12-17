@@ -1,3 +1,0 @@
-<div>
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem hic culpa cum modi perspiciatis ratione aspernatur suscipit incidunt ut ipsa neque pariatur, atque minus harum a rerum quam, consequuntur libero illo saepe voluptas autem ab quibusdam commodi! Impedit iusto assumenda, soluta voluptatum sapiente magni harum illum libero, voluptatem corrupti beatae, eos autem facere numquam.
-</div>

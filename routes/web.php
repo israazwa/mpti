@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Livewire\Admin\AdminDashboard;
+use \App\Livewire\Shop;
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,6 +15,13 @@ Route::get('/', function () {
 Route::get('/dashboard', Dashboard::class)
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+Route::middleware(['auth', 'role:user,admin'])->group(function () {
+    Route::get('/dashboard', Dashboard::class)
+        ->middleware(['auth', 'verified'])
+        ->name('dashboard');
+    Route::get('/shop', Shop::class)->name('shop');
+});
+
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin', AdminDashboard::class)->name('admin.dashboard');
