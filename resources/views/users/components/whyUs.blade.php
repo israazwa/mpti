@@ -104,7 +104,7 @@
 
       <!-- Image -->
       <div class="lg:w-5/12">
-        <img src="dump.png" alt="Why Choose Us" class="w-full h-auto rounded-lg noselect reveal">
+        <x-application-logo class=" w-full h-auto rounded-lg noselect reveal text-red-700 fill-current" />
       </div>
 
     </div>

@@ -48,46 +48,20 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-    //libsodium
-    protected function email(): \Illuminate\Database\Eloquent\Casts\Attribute
+    protected function maskedEmail(): Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(
-            // Dekripsi saat diakses
-            get: function ($value) {
-                $key = hex2bin(env('EMAIL_ENC_KEY'));
-                $nonceCipher = base64_decode($value, true);
-                if (!$nonceCipher)
-                    return null;
-
-                // Pisahkan nonce dan cipher
-                $nonce = substr($nonceCipher, 0, SODIUM_CRYPTO_AEAD_XCHACHA20POLY1305_IETF_NPUBBYTES);
-                $cipher = substr($nonceCipher, SODIUM_CRYPTO_AEAD_XCHACHA20POLY1305_IETF_NPUBBYTES);
-
-                return sodium_crypto_aead_xchacha20poly1305_ietf_decrypt(
-                    $cipher,
-                    "email:v1",
-                    $nonce,
-                    $key
-                );
-            },
-            // Enkripsi saat diset
-            set: function ($value) {
-                $key = hex2bin(env('EMAIL_ENC_KEY'));
-                $nonce = random_bytes(SODIUM_CRYPTO_AEAD_XCHACHA20POLY1305_IETF_NPUBBYTES);
-
-                $cipher = sodium_crypto_aead_xchacha20poly1305_ietf_encrypt(
-                    $value,
-                    "email:v1",
-                    $nonce,
-                    $key
-                );
-
-                return base64_encode($nonce . $cipher);
-            }
+        return Attribute::make(
+            get: fn() => substr($this->email, 0, 2) . '***@' . explode('@', $this->email)[1]
         );
     }
 
+    protected function maskedPhone(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => substr($this->phone, 0, 2) . '****' . substr($this->phone, -3)
+        );
+    }
+    //libsodium encryption
     protected function name(): Attribute
     {
         return Attribute::make(

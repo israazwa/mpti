@@ -13,8 +13,9 @@
     <!-- Styles & Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    @livewireStyles
 </head>
-<body class="font-sans antialiased bg-gray-700">
+<body class="font-sans antialiased bg-gray-700 overflow-x-hidden">
 
     <div id="loading-screen" 
      class="md:left-1/6 fixed inset-0 bg-white dark:bg-gray-700 flex flex-col items-center justify-center z-50 transition-opacity duration-500">
@@ -23,28 +24,25 @@
         Memuat, harap tunggu...
     </p>
 </div>
-
-    @include('layouts.navigation')
-
-    <!-- Page Heading -->
-    {{-- 
-    @isset($header)
-        <header class="bg-gray-200 shadow">
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                {{ $header }}
-            </div>
-        </header>
-    @endisset 
-    --}}
-
-    <!-- Page Content -->
+    <livewire:navigation />
     <main>
         {{ $slot }}
     </main>
 
-    @include('users.components.footer')
-
+    <div class=" bottom-0 left-0 w-full">
+        <footer class="min-h-full">
+            @include('users.components.footer')
+        </footer>
+    </div>
+    
     <!-- Scripts -->
+    <script>
+    document.addEventListener('livewire:load', () => {
+        Livewire.on('notify', data => {
+            alert(data.message); // atau tampilkan toast
+        });
+    });
+</script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -90,5 +88,6 @@
     });
 
     </script>
+    @livewireScripts
 </body>
 </html>

@@ -2,7 +2,7 @@
     <!-- I have not failed. I've just found 10,000 ways that won't work. - Thomas Edison -->
 </div> --}}
 <div class="bg-gray-100 min-h-full">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-4 lg:px-8 py-12">
             <div class="flex flex-col lg:flex-row items-center justify-between">
             
             <!-- Text Content -->
