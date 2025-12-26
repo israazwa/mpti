@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\CartItem;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Midtrans\Config;
 use Midtrans\Snap;
 use Livewire\Attributes\Layout;
 #[Layout('layouts.app')]
@@ -17,6 +18,7 @@ class Cart extends Component
     public $count = 0;
 
     protected $listeners = ['addToCart' => 'addToCart', 'refreshCart' => 'updateCount'];
+
 
     public function mount()
     {
@@ -130,20 +132,25 @@ class Cart extends Component
 
     public function checkout()
     {
-        $subtotal = CartItem::where('user_id', Auth::id())
-            ->sum(DB::raw('price * quantity'));
+        Config::$serverKey = config('services.midtrans.server_key');
+        Config::$isProduction = config('services.midtrans.is_production');
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
 
-        if ($subtotal <= 0) {
-            $this->dispatch('notify', ['message' => 'Cart kosong, tidak bisa checkout!']);
-            return;
-        }
+        $params = [
+            'transaction_details' => [
+                'order_id' => uniqid(),
+                'gross_amount' => $this->total,
+            ],
+            'customer_details' => [
+                'first_name' => Auth::user()->name,
+                'email' => Auth::user()->email,
+            ],
+        ];
 
-        $snapToken = $this->createSnapToken($subtotal);
+        $snapToken = Snap::getSnapToken($params);
 
-        // Debug log
-        logger()->info('SnapToken dibuat', ['token' => $snapToken]);
-
-        $this->dispatch('open-payment', ['snapToken' => $snapToken]);
+        $this->emit('open-payment', ['snapToken' => $snapToken]);
     }
 
     public function createSnapToken($amount)

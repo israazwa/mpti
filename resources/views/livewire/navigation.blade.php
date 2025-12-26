@@ -18,7 +18,7 @@
     id="navbar"
 >
     <div class="w-full mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+        <div class="flex items-center justify-between h-16 flex-wrap">
             <!-- Logo -->
             <div class="flex">
                 <div class="shrink-0 flex items-center">
@@ -38,24 +38,29 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('about')">
                         {{ __('About Us') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('services')">
-                        {{ __('Services') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('blog')">
-                        {{ __('Blog') }}
-                    </x-nav-link>
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('contact')">
                         {{ __('Contact Us') }}
                     </x-nav-link>
                 </div>
             </div>
+           <!-- User & Cart Icons -->
+            <div class="hidden sm:flex sm:items-center sm:ms-6 space-x-6">
+                <!-- Logout -->
+                <form action="{{ url('/logout') }}" method="POST">
+                    {{ csrf_field() }}
+                    <button type="submit"
+                        class="text-md font-thin text-red-500 hover:text-white transition duration-100 ease-out hover:bg-red-500/70 rounded-md cursor-pointer py-1 px-3">
+                        Logout
+                    </button>
+                </form>
 
-            <!-- User & Cart Icons -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6 space-x-4">
-                <a href="{{ route('profile.edit') }}">
+                <!-- User -->
+                <a href="{{ route('profile.edit') }}" class="flex items-center">
                     <img src="{{ asset('user.png') }}" class="h-6 w-6" alt="User">
                 </a>
-                <div class="hidden sm:flex sm:items-center sm:ms-6 space-x-4">
+
+                <!-- Cart -->
+                <div class="flex items-center">
                     @livewire('cartic')
                 </div>
             </div>
@@ -77,7 +82,7 @@
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
+   <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('home')">
             {{ __('Home') }}
@@ -88,37 +93,32 @@
         <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('about')">
             {{ __('About Us') }}
         </x-responsive-nav-link>
-        <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('services')">
-            {{ __('Services') }}
-        </x-responsive-nav-link>
-        <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('blog')">
-            {{ __('Blog') }}
-        </x-responsive-nav-link>
         <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('contact')">
             {{ __('Contact Us') }}
         </x-responsive-nav-link>
 
-        <!-- Responsive User & Cart -->
-        <div class="flex space-x-4 px-4 py-2">
-            <a href="{{ route('profile.edit') }}">
-                <img src="{{ asset('user.png') }}" class="h-6 w-6" alt="User">
-            </a>
-            <div class="hidden sm:flex sm:items-center sm:ms-6 space-x-4">
-                @livewire('cartic')
-            </div>
-        </div>
-        <div class="mx-5 my-3">
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button 
-                    type="submit" 
-                    class="px-4 py-2 rounded-md text-sm font-medium 
-                        bg-gray-700 text-white hover:bg-gray-600 
-                        focus:outline-none focus:ring-2 focus:ring-gray-500 
-                        transition ease-in-out duration-150">
+        <!-- Logout -->
+        <div class="mb-3">
+            <form action="{{ url('/logout') }}" method="POST">
+                {{ csrf_field() }}
+                <button type="submit"
+                    class="text-md font-thin text-red-500 hover:text-white transition duration-100 ease-out hover:bg-red-500/70 rounded-md cursor-pointer py-1 px-3">
                     Logout
                 </button>
             </form>
+        </div>
+
+        <!-- Responsive User & Cart -->
+        <div class="flex items-center space-x-6 px-4 py-2">
+            <!-- User -->
+            <a href="{{ route('profile.edit') }}" class="flex items-center">
+                <img src="{{ asset('user.png') }}" class="h-6 w-6" alt="User">
+            </a>
+
+            <!-- Cart -->
+            <div class="flex items-center">
+                @livewire('cartic')
+            </div>
         </div>
     </div>
 </nav>

@@ -1,17 +1,23 @@
 <section>
     <div class="mt-28 container mx-auto px-4 py-10 mb-10">
-        <div class="mb-8 px-3 text-white text-5xl font-bold"> Keranjang Belanja</div>
+        <div class="mb-8 px-3 text-white text-5xl font-bold">Keranjang Belanja</div>
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mx-3">
-            <!-- Cart content -->
+            <!-- Cart Content -->
             <div class="md:col-span-2 bg-white shadow rounded-lg p-6">
-                <h2 class="text-xl font-light mb-6 border-b pb-2">Pastikan Anda telah memeriksanya dengan teliti!</h2>
+                <h2 class="text-xl font-light mb-6 border-b pb-2">
+                    Pastikan Anda telah memeriksanya dengan teliti!
+                </h2>
+
                 @forelse($cart as $item)
                     <div class="flex justify-between items-center py-4 border-b">
                         <div class="flex items-center gap-4">
                             @if($item['image'])
-                                <img src="{{ asset('storage/'.$item['image']) }}" alt="{{ $item['name'] }}"
+                                <img src="{{ asset('storage/'.$item['image']) }}"
+                                     alt="{{ $item['name'] }}"
                                      class="w-16 h-16 object-cover rounded">
                             @endif
+
                             <div>
                                 <span class="block font-medium">{{ $item['name'] }}</span>
                                 <div class="flex items-center gap-2 mt-2">
@@ -32,6 +38,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <span class="font-semibold text-gray-700">
                             Rp {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}
                         </span>
@@ -51,13 +58,14 @@
                     </div>
                 </div>
 
-                <!-- Tombol dengan spinner -->
+                <!-- Tombol Checkout dengan Spinner -->
                 <div class="mt-6 relative">
                     <button wire:click="checkout"
                             class="w-full px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition"
                             wire:loading.attr="disabled">
                         Bayar Sekarang
                     </button>
+
                     <!-- Spinner muncul saat loading -->
                     <div wire:loading wire:target="checkout"
                          class="absolute inset-0 flex items-center justify-center bg-orange-600 bg-opacity-75 rounded-lg">
@@ -82,12 +90,22 @@
         document.addEventListener("DOMContentLoaded", function () {
             Livewire.on('open-payment', data => {
                 console.log('SnapToken:', data.snapToken);
+
                 if (data.snapToken) {
                     snap.pay(data.snapToken, {
-                        onSuccess: function(result){ console.log('Success', result); Livewire.dispatch('refreshCart'); },
-                        onPending: function(result){ console.log('Pending', result); },
-                        onError: function(result){ console.log('Error', result); },
-                        onClose: function(){ console.log('Popup closed'); }
+                        onSuccess: function(result) {
+                            console.log('Success', result);
+                            Livewire.emit('refreshCart'); // refresh cart setelah sukses
+                        },
+                        onPending: function(result) {
+                            console.log('Pending', result);
+                        },
+                        onError: function(result) {
+                            console.log('Error', result);
+                        },
+                        onClose: function() {
+                            console.log('Popup closed');
+                        }
                     });
                 } else {
                     alert('Snap Token gagal dibuat');

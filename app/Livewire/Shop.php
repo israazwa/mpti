@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
 use App\Models\Category;
 use App\Models\CartItem;
@@ -12,6 +13,8 @@ use App\Models\Product;
 #[Layout('layouts.app')]
 class Shop extends Component
 {
+    use WithPagination;
+
     public $category = null;
     public $categories = [];
 
@@ -54,7 +57,11 @@ class Shop extends Component
         session()->flash('success', 'Produk berhasil ditambahkan ke cart!');
     }
 
-
+    // Reset halaman ketika kategori berubah
+    public function updatedCategory()
+    {
+        $this->resetPage();
+    }
 
     public function render()
     {
@@ -65,7 +72,7 @@ class Shop extends Component
         }
 
         return view('livewire.shop', [
-            'products' => $query->get(),
+            'products' => $query->paginate(10),
             'categories' => $this->categories,
         ]);
     }

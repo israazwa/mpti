@@ -4,11 +4,11 @@
         window.addEventListener('scroll', () => {
             let current = window.pageYOffset;
             if (current <= 0) {
-                visible = true; // di posisi paling atas, selalu muncul
+                visible = true; 
             } else if (current > lastScroll) {
-                visible = false; // scroll ke bawah, sembunyikan
+                visible = false; 
             } else {
-                visible = true; // scroll ke atas, tampilkan
+                visible = true; 
             }
             lastScroll = current;
         });
@@ -37,12 +37,6 @@
                     </x-nav-link>
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('about')">
                         {{ __('About Us') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('services')">
-                        {{ __('Services') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('blog')">
-                        {{ __('Blog') }}
                     </x-nav-link>
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('contact')">
                         {{ __('Contact Us') }}
@@ -87,12 +81,6 @@
         </x-responsive-nav-link>
         <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('about')">
             {{ __('About Us') }}
-        </x-responsive-nav-link>
-        <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('services')">
-            {{ __('Services') }}
-        </x-responsive-nav-link>
-        <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('blog')">
-            {{ __('Blog') }}
         </x-responsive-nav-link>
         <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('contact')">
             {{ __('Contact Us') }}

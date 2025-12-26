@@ -24,7 +24,9 @@
         Memuat, harap tunggu...
     </p>
 </div>
-    <livewire:navigation />
+    <header class="w-full mx-auto px-4 sm:px-6 lg:px-8">
+        <livewire:navigation />
+    </header>
     <main>
         {{ $slot }}
     </main>
@@ -88,6 +90,20 @@
     });
 
     </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const requiredSelectors = ["main", "header", "footer"];
+
+        requiredSelectors.forEach(selector => {
+            const el = document.querySelector(selector);
+            if (!el) {
+                alert("Peringatan: Elemen " + selector + " tidak ditemukan di halaman!");
+                console.error("Elemen hilang:", selector);
+            }
+        });
+    });
+</script>
     @livewireScripts
 </body>
 </html>
