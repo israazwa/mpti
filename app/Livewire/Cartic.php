@@ -21,14 +21,13 @@ class Cartic extends Component
 
     public function updateCount()
     {
-        // hitung jumlah quantity langsung dari DB
         $this->count = CartItem::where('user_id', Auth::id())->sum('quantity');
     }
 
     public function render()
     {
-        return view('livewire.cartic', [
-            'count' => CartItem::where('user_id', Auth::id())->sum('quantity')
-        ]);
+        // boleh tetap ada, tapi tidak wajib ketika pakai poll method
+        $this->updateCount();
+        return view('livewire.cartic');
     }
 }

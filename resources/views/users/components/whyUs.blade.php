@@ -6,20 +6,18 @@
       <div class="lg:w-6/12 space-y-6">
         <h2 class="text-3xl font-bold text-gray-900">Why Choose Us</h2>
         <p class="text-gray-600">
-          Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. 
-          Aliquam vulputate velit imperdiet dolor tempor tristique.
-        </p>
-
+        Kami berkomitmen menghadirkan pengalaman belanja yang aman dengan empat fitur andalan kami sebagai berikut:
+      </p>
         <!-- Features Grid -->
         <div class="grid grid-cols-2 gap-8 mt-8">
-          <!-- Feature 1 -->
+                    <!-- Feature 1 -->
           <div class="space-y-3 reveal">
             <div class="flex justify-center">
               <img src="shipping.png" alt="Fast Shipping" class="h-12 w-12">
             </div>
             <h3 class="text-lg font-semibold text-gray-800 text-center">Fast &amp; Free Shipping</h3>
             <p class="text-md text-gray-600 text-center">
-              Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.
+              Pengiriman cepat ke seluruh Indonesia dengan layanan gratis untuk pesanan tertentu.
             </p>
             <p class="text-sm text-gray-400 text-center">
               *Syarat dan Ketentuan Berlaku
@@ -33,7 +31,7 @@
             </div>
             <h3 class="text-lg font-semibold text-gray-800 text-center">Easy to Shop</h3>
             <p class="text-md text-gray-600 text-center">
-              Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.
+              Antarmuka belanja yang sederhana dan ramah pengguna, memudahkan Anda menemukan produk favorit.
             </p>
           </div>
 
@@ -44,7 +42,7 @@
             </div>
             <h3 class="text-lg font-semibold text-gray-800 text-center">24/7 Support</h3>
             <p class="text-md text-gray-600 text-center">
-              Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.
+              Tim dukungan kami siap membantu kapan saja, memastikan pengalaman belanja Anda tetap lancar.
             </p>
           </div>
 
@@ -55,7 +53,7 @@
             </div>
             <h3 class="text-lg font-semibold text-gray-800 text-center">Hassle Free Returns</h3>
             <p class="text-md text-gray-600 text-center">
-              Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate.
+              Proses pengembalian barang yang mudah dan praktis, tanpa ribet untuk kenyamanan Anda.
             </p>
             <p class="text-sm text-gray-400 text-center">
               *Syarat dan Ketentuan Berlaku
@@ -64,7 +62,7 @@
         </div>
 
         <div class="space-y-6 rounded-md text-center my-5 mx-5 reveal">
-           <a href="#"
+           <a href="/aboutus"
             class="relative overflow-hidden shadow-sm block w-full my-8 py-4 px-8 rounded-md 
             bg-orange-600 text-white transition hover:bg-orange-700">
             About US

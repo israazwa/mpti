@@ -13,7 +13,12 @@ use App\Livewire\Admin\Component\ProductCreate;
 use App\Livewire\Admin\Component\Tambahkategori;
 use App\Http\Controllers\admin\categoryController;
 use App\Http\Controllers\admin\produkcrud;
+use App\Livewire\Admin\Adminfix;
+use App\Livewire\Contact;
+use App\Livewire\Admin\Component\Cekuser;
 use App\Livewire\Admin\Component\Listpro;
+use App\Livewire\Admin\Replies;
+use App\Livewire\Component\AboutUs;
 
 // Halaman utama
 Route::get('/', function () {
@@ -31,12 +36,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/payment/finish', [PaymentController::class, 'finish']);
     Route::get('/payment/unfinish', [PaymentController::class, 'unfinish']);
     Route::get('/payment/error', [PaymentController::class, 'error']);
+    Route::get('/aboutus', AboutUs::class)->name('aboutus');
+    Route::get('/contactus', Contact::class)->name('contactus');
+    Route::get('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
+    Route::post('/midtrans/notification', [PaymentController::class, 'notification'])->name('midtrans.notification');
+
+
 });
 
 // Group khusus admin
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/homeAd', DashAdmin::class)->name('homeAd');
     Route::get('/inproduct', ProductCreate::class)->name('inProduct');
+    Route::get('/inuser', Cekuser::class)->name('inuser');
     Route::post('/admin/products', [produkController::class, 'store'])->name('products.store');
     Route::get('/kategoriad', Tambahkategori::class)->name('kategoryad');
     Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
@@ -47,7 +59,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/products', [produkcrud::class, 'store'])->name('products.store');
     Route::put('/products/{product}', [produkcrud::class, 'update'])->name('products.update');
     Route::delete('/products/{product}', [produkcrud::class, 'destroy'])->name('products.destroy');
-
+    Route::get('/sokasiklu', Replies::class)->name('adminreply');
+    Route::get('/atmin', Adminfix::class)->name('rilladmin');
 });
 
 // Profile routes

@@ -5,20 +5,31 @@ use Livewire\Component;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\CartItem;
+use App\Models\UserAddress;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Midtrans\Config;
 use Midtrans\Snap;
 use Livewire\Attributes\Layout;
-#[Layout('layouts.app')]
 
+
+
+#[Layout('layouts.app')]
 class Cart extends Component
 {
+    // Field alamat
+    public $nama_penerima;
+    public $telepon;
+    public $alamat_lengkap;
+    public $kota;
+    public $provinsi;
+    public $kode_pos;
+    public $catatan;
+
     public $cart = [];
     public $count = 0;
 
     protected $listeners = ['addToCart' => 'addToCart', 'refreshCart' => 'updateCount'];
-
 
     public function mount()
     {
@@ -46,6 +57,61 @@ class Cart extends Component
         $this->count = CartItem::where('user_id', Auth::id())->sum('quantity');
     }
 
+    // ... metode addToCart, removeFromCart, increaseQuantity, decreaseQuantity, updateQuantity, clearCart tetap sama ...
+
+    public function checkout()
+    {
+        // Konfigurasi Midtrans
+        Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+        Config::$isProduction = env('MIDTRANS_IS_PRODUCTION', false);
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+
+        // Simpan order ke DB
+        $order = Order::create([
+            'user_id' => Auth::id(),
+            'order_number' => 'ORD-' . uniqid(),
+            'subtotal' => 100000,   // tambahkan ini
+            'grand_total' => 100000,
+            'status' => 'pending',
+        ]);
+
+        // Data transaksi
+        $params = [
+            'transaction_details' => [
+                'order_id' => rand(),
+                'gross_amount' => $order->grand_total,
+            ],
+            'customer_details' => [
+                'first_name' => auth()->name ?? 'HAy',
+                'email' => auth()->email ?? 'Hay@example.com',
+                'phone' => auth()->phone ?? '08123456789',
+            ],
+        ];
+
+        // Buat Snap Token
+        $snapToken = Snap::getSnapToken($params);
+        $this->dispatch('open-payment', ['snapToken' => $snapToken]);
+        logger()->info('SnapToken', ['token' => $snapToken]);
+        return response()->json(['snapToken' => $snapToken]);
+    }
+
+    public function getTotalProperty()
+    {
+        return CartItem::where('user_id', Auth::id())
+            ->sum(DB::raw('price * quantity'));
+    }
+
+    public function render()
+    {
+        return view('livewire.cart', [
+            'cart' => $this->cart,
+            'total' => $this->total,
+        ]);
+    }
+
+
+    // Tambah produk ke cart
     public function addToCart($productId)
     {
         $product = Product::findOrFail($productId);
@@ -72,6 +138,7 @@ class Cart extends Component
         ]);
     }
 
+    // Hapus produk dari cart
     public function removeFromCart($productId)
     {
         CartItem::where('user_id', Auth::id())
@@ -81,6 +148,8 @@ class Cart extends Component
         $this->loadCart();
         $this->dispatch('refreshCart');
     }
+
+    // Tambah quantity
     public function increaseQuantity($productId)
     {
         $item = CartItem::where('user_id', Auth::id())
@@ -95,6 +164,7 @@ class Cart extends Component
         $this->dispatch('refreshCart');
     }
 
+    // Kurangi quantity
     public function decreaseQuantity($productId)
     {
         $item = CartItem::where('user_id', Auth::id())
@@ -109,6 +179,7 @@ class Cart extends Component
         $this->dispatch('refreshCart');
     }
 
+    // Update quantity langsung
     public function updateQuantity($productId, $quantity)
     {
         $item = CartItem::where('user_id', Auth::id())
@@ -123,73 +194,11 @@ class Cart extends Component
         $this->dispatch('refreshCart');
     }
 
+    // Kosongkan cart
     public function clearCart()
     {
         CartItem::where('user_id', Auth::id())->delete();
         $this->cart = [];
         $this->dispatch('refreshCart');
-    }
-
-    public function checkout()
-    {
-        Config::$serverKey = config('services.midtrans.server_key');
-        Config::$isProduction = config('services.midtrans.is_production');
-        Config::$isSanitized = true;
-        Config::$is3ds = true;
-
-        $params = [
-            'transaction_details' => [
-                'order_id' => uniqid(),
-                'gross_amount' => $this->total,
-            ],
-            'customer_details' => [
-                'first_name' => Auth::user()->name,
-                'email' => Auth::user()->email,
-            ],
-        ];
-
-        $snapToken = Snap::getSnapToken($params);
-
-        $this->emit('open-payment', ['snapToken' => $snapToken]);
-    }
-
-    public function createSnapToken($amount)
-    {
-        \Midtrans\Config::$serverKey = config('services.midtrans.server_key');
-        \Midtrans\Config::$isProduction = config('services.midtrans.is_production');
-        \Midtrans\Config::$isSanitized = true;
-        \Midtrans\Config::$is3ds = true;
-
-        $params = [
-            'transaction_details' => [
-                'order_id' => uniqid(),
-                'gross_amount' => $amount,
-            ],
-            'customer_details' => [
-                'first_name' => Auth::user()->name ?? 'Guest',
-                'email' => Auth::user()->email ?? 'guest@example.com',
-            ],
-        ];
-
-        try {
-            return Snap::getSnapToken($params);
-        } catch (\Exception $e) {
-            logger()->error('Midtrans error: ' . $e->getMessage());
-            return null;
-        }
-    }
-
-    public function getTotalProperty()
-    {
-        return CartItem::where('user_id', Auth::id())
-            ->sum(DB::raw('price * quantity'));
-    }
-
-    public function render()
-    {
-        return view('livewire.cart', [
-            'cart' => $this->cart,
-            'total' => $this->total,
-        ]);
     }
 }

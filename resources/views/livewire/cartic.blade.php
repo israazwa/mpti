@@ -1,4 +1,4 @@
-<div wire:poll.3s>
+<div wire:poll.keep-alive.1s="updateCount">
     <a href="{{ route('cart') }}" class="inline-block" style="position: relative;">
         <img src="{{ asset('cart.svg') }}" class="h-6 w-6" alt="Cart">
         @if($count > 0)

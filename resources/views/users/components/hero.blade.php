@@ -17,18 +17,18 @@
                     </h1>
 
                     <p class="text-gray-600 noselect">
-                        Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit.
-                        Aliquam vulputate velit imperdiet dolor tempor tristique.
+                        Belanja mudah dan cepat bersama SiPanda. Semua kebutuhan Anda tersedia dalam satu tempat.
                     </p>
 
+
                     <div class="flex space-x-4">
-                        <a href="#"
+                        <a href="/shop"
                            class="shine-effect px-8 py-3 bg-orange-600 text-white rounded-md shadow hover:bg-orange-700">
-                            Shop Now
+                            Katalog
                         </a>
-                        <a href="#"
+                        <a href="/contactus"
                            class="px-8 py-3 border border-gray-400 text-gray-700 rounded-md hover:bg-gray-200">
-                            Explore
+                            Hubungi Kami
                         </a>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
 
             <!-- Image Slider -->
             <div x-data="{
-                    images: ['hero.png','produk.png','dump.png','dump2.png'],
+                    images: ['hero1.png','hero2.png','hero3.png','hero4.png'],
                     active: 0,
                     loading: true,
                     loaded: [],
@@ -44,7 +44,6 @@
                         this.loaded = new Array(this.images.length).fill(false);
                         setInterval(() => {
                             this.active = (this.active + 1) % this.images.length;
-                            // spinner hanya muncul jika gambar aktif belum pernah dimuat
                             this.loading = !this.loaded[this.active];
                         }, 4000);
                     }

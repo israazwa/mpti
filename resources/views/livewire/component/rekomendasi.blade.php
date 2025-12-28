@@ -16,10 +16,11 @@
 
       <!-- Kolom 1: Text Content -->
       <div class="lg:col-span-1 space-y-4 flex flex-col justify-center">
-        <h2 class="text-3xl font-extrabold text-gray-900">Produk Rekomendasi</h2>
+        <h2 class="text-3xl font-extrabold text-gray-900">Produk Unggulan</h2>
         <p class="text-gray-600 text-justify">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta praesentium quos magni illo.
-          Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit.
+          Temukan berbagai produk unggulan kami yang dirancang untuk memberikan kualitas terbaik 
+          dan pengalaman pengguna yang memuaskan. Setiap produk dibuat dengan perhatian pada detail, 
+          inovasi, dan kenyamanan, sehingga dapat mendukung kebutuhan Anda sehari-hari.
         </p>
         <a href="shop.html"
            class="shine-effect inline-block text-center py-3 font-semibold bg-orange-600 text-white rounded-md shadow hover:bg-orange-700 w-full">

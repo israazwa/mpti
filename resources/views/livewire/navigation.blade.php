@@ -35,10 +35,10 @@
                     <x-nav-link :href="route('shop')" :active="request()->routeIs('shop')">
                         {{ __('Shop') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('about')">
+                    <x-nav-link :href="route('aboutus')" :active="request()->routeIs('aboutus')">
                         {{ __('About Us') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('contact')">
+                    <x-nav-link :href="route('contactus')" :active="request()->routeIs('contactus')">
                         {{ __('Contact Us') }}
                     </x-nav-link>
                 </div>
@@ -90,10 +90,10 @@
         <x-responsive-nav-link :href="route('shop')" :active="request()->routeIs('shop')">
             {{ __('Shop') }}
         </x-responsive-nav-link>
-        <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('about')">
+        <x-responsive-nav-link :href="route('aboutus')" :active="request()->routeIs('aboutus')">
             {{ __('About Us') }}
         </x-responsive-nav-link>
-        <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('contact')">
+        <x-responsive-nav-link :href="route('contactus')" :active="request()->routeIs('contactus')">
             {{ __('Contact Us') }}
         </x-responsive-nav-link>
 

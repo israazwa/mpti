@@ -71,6 +71,55 @@
                         <li><a wire:navigate href="/kategoriad" class="block py-2 text-gray-400 hover:text-white">Kategori Produk</a></li>
                     </ul>
                 </li>
+                <li x-data="{ openUser: false }" class="list-none">
+                    <button 
+                        class="w-full flex items-center justify-between px-6 py-3 hover:bg-gray-800"
+                        @click="openUser = !openUser"
+                        :aria-expanded="openUser"
+                    >
+                        <span class="flex items-center gap-2">
+                            <i class="fas fa-users w-6"></i> User
+                        </span>
+
+                        <!-- Penanda dropdown -->
+                        <svg class="w-4 h-4 transform transition-transform duration-300"
+                            :class="{ 'rotate-180': openUser }"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <!-- Dropdown User dengan animasi -->
+                    <ul 
+                        x-show="openUser"
+                        x-collapse
+                        x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="opacity-0 -translate-y-2"
+                        x-transition:enter-end="opacity-100 translate-y-0"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100 translate-y-0"
+                        x-transition:leave-end="opacity-0 -translate-y-2"
+                        class="pl-12 space-y-1 bg-gray-800"
+                    >
+                        <li>
+                            <a wire:navigate href="/inuser" class="block py-2 text-gray-400 hover:text-white">
+                                List User
+                            </a>
+                        </li>
+                        <li>
+                            <a wire:navigate href="/sokasiklu" class="block py-2 text-gray-400 hover:text-white">
+                                Pesan dari User
+                            </a>
+                        </li>
+                        <li>
+                            <a wire:navigate href="/atmin" class="block py-2 text-gray-400 hover:text-white">
+                                Admin Previllage
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </aside>

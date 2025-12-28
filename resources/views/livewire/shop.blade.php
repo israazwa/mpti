@@ -2,7 +2,7 @@
     <!-- Because you are alive, everything is possible. - Thich Nhat Hanh -->
 </div> --}}
 
-<div class="mt-14 py-12 bg-gray-900 min-h-screen">
+<div class="mt-14 py-12 bg-gray-800 min-h-screen">
   <div class="container mx-auto px-4">
 
     <!-- Filter Kategori -->
