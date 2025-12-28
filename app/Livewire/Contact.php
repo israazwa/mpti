@@ -54,9 +54,10 @@ class Contact extends Component
     {
         $this->messages = ContactMessage::with('replies')
             ->where('user_id', Auth::id())
-            ->latest()
+            ->orderBy('created_at', 'asc') // urutkan dari lama ke baru
             ->get()
             ->toArray();
+
         return view('livewire.contact-us');
     }
 }

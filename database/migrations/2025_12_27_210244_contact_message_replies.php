@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->foreignId('admin_id')->nullable()->constrained('users')->nullOnDelete();
             $table->text('body');                 // isi balasan
             $table->string('status')->default('sent'); // sent|delivered|read (opsional)
+            $table->boolean('is_read')->default(false);
             $table->timestamps();
         });
     }

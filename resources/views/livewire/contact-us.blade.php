@@ -7,7 +7,11 @@
 
     <!-- Chat Area -->
     <div class="h-72 md:h-80 overflow-y-auto space-y-4 p-3 bg-gray-800 rounded"
-         wire:poll.100ms="refreshMessages">
+     wire:poll.100ms="refreshMessages"
+     x-data
+     x-init="$watch('$wire.messages', () => { $el.scrollTop = $el.scrollHeight })"
+     x-on:message-sent.window="$el.scrollTop = $el.scrollHeight">
+
        @foreach($messages as $msg)
         <!-- Pesan user -->
         <div class="flex justify-end">

@@ -49,7 +49,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/homeAd', DashAdmin::class)->name('homeAd');
     Route::get('/inproduct', ProductCreate::class)->name('inProduct');
     Route::get('/inuser', Cekuser::class)->name('inuser');
-    Route::post('/admin/products', [produkController::class, 'store'])->name('products.store');
+    Route::post('/admin/products', [produkController::class, 'store'])->name('productss.store');
     Route::get('/kategoriad', Tambahkategori::class)->name('kategoryad');
     Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
     Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');

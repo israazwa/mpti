@@ -10,20 +10,33 @@
     </div>
 
     <ul class="space-y-2">
-      @forelse($messages as $m)
-        <li>
-          <button class="w-full text-left px-3 py-2 rounded
-                         {{ $selectedMessageId === $m->id ? 'bg-orange-600' : 'bg-gray-700 hover:bg-gray-600' }}"
-                  wire:click="selectMessage({{ $m->id }})">
-            <div class="text-sm opacity-80">{{ $m->kategori ?: 'Umum' }}</div>
-            <div class="font-medium truncate">{{ $m->pesan }}</div>
-            <div class="text-xs opacity-70">{{ $m->created_at->format('d M Y, H:i') }}</div>
-          </button>
-        </li>
-      @empty
-        <li class="text-gray-300">Belum ada pesan.</li>
-      @endforelse
-    </ul>
+    @forelse($users as $u)
+      <li>
+        <button class="w-full text-left px-3 py-2 rounded
+                      {{ $selectedUserId === $u->id ? 'bg-orange-600' : 'bg-gray-700 hover:bg-gray-600' }}"
+                wire:click="selectUser({{ $u->id }})">
+          <div class="flex justify-between items-center">
+            <span class="font-semibold">{{ $u->name }}</span>
+            @if($u->unread_count > 0)
+              <span class="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                {{ $u->unread_count }}
+              </span>
+            @endif
+          </div>
+
+         <div class="text-sm opacity-80 truncate">
+          {{ optional($u->messages->last())->pesan ?? 'Belum ada pesan' }}
+        </div>
+
+        <div class="text-xs opacity-70">
+          {{ optional($u->messages->last())->created_at?->format('d M Y, H:i') ?? '' }}
+        </div>
+        </button>
+      </li>
+    @empty
+      <li class="text-gray-300">Belum ada user dengan pesan.</li>
+    @endforelse
+  </ul>
   </aside>
 
   {{-- Panel balasan --}}
@@ -37,11 +50,13 @@
 
       {{-- Riwayat balasan --}}
       <div class="space-y-3 max-h-72 overflow-y-auto border border-gray-200 rounded p-3">
-        @forelse($selected->replies as $r)
+        @forelse(optional($selected)->replies ?? [] as $r)
           <div class="flex justify-end">
             <div class="bg-orange-100 text-orange-900 px-3 py-2 rounded max-w-[80%]">
               <div class="text-sm">{{ $r->body }}</div>
-              <div class="text-xs text-orange-700 mt-1">{{ $r->created_at->format('d M Y, H:i') }}</div>
+              <div class="text-xs text-orange-700 mt-1">
+                {{ $r->created_at->format('d M Y, H:i') }}
+              </div>
             </div>
           </div>
         @empty

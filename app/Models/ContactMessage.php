@@ -15,6 +15,7 @@ class ContactMessage extends Model
         'kategori',
         'pesan',
     ];
+
     /**
      * Relasi ke tabel users
      */
@@ -22,23 +23,31 @@ class ContactMessage extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     public function replies()
     {
         return $this->hasMany(ContactMessageReply::class);
     }
 
-
     protected function pesan(): Attribute
     {
         return Attribute::make(
             get: function ($value) {
-                if (!$value)
+                if (!$value) {
                     return null;
+                }
 
-                $key = hex2bin(env('PESAN_ENC_KEY'));
-                $nonceCipher = base64_decode($value, true);
-                if (!$nonceCipher)
+                $key = hex2bin(env('ALL_ENC_KEY'));
+
+                // Validasi panjang key
+                if (!$key || strlen($key) !== SODIUM_CRYPTO_AEAD_XCHACHA20POLY1305_IETF_KEYBYTES) {
                     return null;
+                }
+
+                $nonceCipher = base64_decode($value, true);
+                if (!$nonceCipher) {
+                    return null;
+                }
 
                 // Pastikan panjang cukup
                 if (strlen($nonceCipher) < SODIUM_CRYPTO_AEAD_XCHACHA20POLY1305_IETF_NPUBBYTES) {
@@ -56,10 +65,17 @@ class ContactMessage extends Model
                 );
             },
             set: function ($value) {
-                if (!$value)
+                if (!$value) {
                     return null;
+                }
 
-                $key = hex2bin(env('PESAN_ENC_KEY'));
+                $key = hex2bin(env('ALL_ENC_KEY'));
+
+                // Validasi panjang key
+                if (!$key || strlen($key) !== SODIUM_CRYPTO_AEAD_XCHACHA20POLY1305_IETF_KEYBYTES) {
+                    throw new \Exception("Invalid PESAN_ENC_KEY length");
+                }
+
                 $nonce = random_bytes(SODIUM_CRYPTO_AEAD_XCHACHA20POLY1305_IETF_NPUBBYTES);
 
                 $cipher = sodium_crypto_aead_xchacha20poly1305_ietf_encrypt(
